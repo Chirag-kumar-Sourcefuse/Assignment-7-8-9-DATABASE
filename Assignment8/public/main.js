@@ -85,7 +85,7 @@ var Table = /** @class */ (function (_super) {
             console.log(Users[0].id);
             for (var i_1 = 0; i_1 < Users.length; i_1++) {
                 // console.log(Users[i].firstname);
-                var row = "<tr id=\"row_" + i_1 + "\">\n                        <td>" + Users[i_1].id + "</td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " firstname\" value=" + Users[i_1].firstname + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " middleName\" value=" + Users[i_1].middlename + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " lastName\" value=" + Users[i_1].lastname + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " email\" value=" + Users[i_1].email + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " phoneNo\" value=" + Users[i_1].phoneno + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " role\" value=" + Users[i_1].role + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " address\" value=" + Users[i_1].address + "></td>\n                        <td>\n                        <button type=\"button\" onclick=\"new Table().Update(" + i_1 + ",this)\"  value=\"Edit\">Edit</button>\n                        <button type=\"button\" onclick=\"new Table().Delete(this)," + i_1 + "\" value=\"Delete\">Delete</button>\n                        \n                        </td>\n                        <td id=\"hidden\" style=\"display:none\"><button type=\"button\" onclick=\"new Table().Save(this," + i_1 + ")\" value=\"Save\">Save</button>\n                        <button type=\"button\" onclick=\"new Table().Cancel(" + i_1 + ")\">Cancel</button>\n                        </td>\n            \n            </tr>";
+                var row = "<tr id=\"row_" + i_1 + "\">\n                        <td>" + Users[i_1].id + "</td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " firstname\" value=" + Users[i_1].firstname + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " middleName\" value=" + Users[i_1].middlename + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " lastName\" value=" + Users[i_1].lastname + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " email\" value=" + Users[i_1].email + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " phoneNo\" value=" + Users[i_1].phoneno + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " address\" value=" + Users[i_1].address + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " address\" value=" + Users[i_1].customer_name + "></td>\n                        <td><input disabled type=text class=\"equal" + i_1 + " address\" value=" + Users[i_1].role + "></td>\n                        <td>\n                        <button type=\"button\" onclick=\"new Table().Update(" + i_1 + ",this)\"  value=\"Edit\">Edit</button>\n                        <button type=\"button\" onclick=\"new Table().Delete(this)," + i_1 + "\" value=\"Delete\">Delete</button>\n                        \n                        </td>\n                        <td id=\"hidden\" style=\"display:none\"><button type=\"button\" onclick=\"new Table().Save(this," + i_1 + ")\" value=\"Save\">Save</button>\n                        <button type=\"button\" onclick=\"new Table().Cancel(" + i_1 + ")\">Cancel</button>\n                        </td>\n            \n            </tr>";
                 table.innerHTML += row;
                 var divContainer = document.getElementById("page");
                 //console.log(divContainer);
@@ -135,6 +135,8 @@ var Table = /** @class */ (function (_super) {
         var row = td.parentElement.parentElement;
         var selectedRow = document.getElementById("row_" + sid);
         var button = selectedRow.querySelectorAll('input');
+        console.log(row.children[7].firstElementChild.value);
+        console.log(row.children[8].firstElementChild.value);
         console.log("save-put", row.children[1].innerHTML);
         fetch("/routes-users/" + row.children[0].innerHTML, {
             method: "PUT",
@@ -145,8 +147,9 @@ var Table = /** @class */ (function (_super) {
                 lastname: row.children[3].firstElementChild.value,
                 email: row.children[4].firstElementChild.value,
                 phoneno: row.children[5].firstElementChild.value,
-                role: row.children[6].firstElementChild.value,
-                address: row.children[7].firstElementChild.value,
+                address: row.children[6].firstElementChild.value,
+                customer_name: row.children[7].firstElementChild.value,
+                role: row.children[8].firstElementChild.value
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",

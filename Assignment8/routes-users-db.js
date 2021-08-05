@@ -4,7 +4,7 @@ var express_1 = require("express");
 var db_1 = require("./db");
 var router = express_1.Router();
 router.get("/", function (req, res) {
-    db_1.pool.query("SELECT id,firstname,middlename,lastname,email,phoneno,role_key as role,address  FROM mydata").then(function (userData) {
+    db_1.pool.query("select m.id,m.firstname, m.middlename, m.lastname,m.email,m.phoneno,m.address,c.customer_name, r.name AS ROLE from mydata m JOIN customer c ON m.id=c.customer_id JOIN role r ON r.role_key=m.role_key;").then(function (userData) {
         res.status(200).send(userData.rows);
     });
 });
@@ -21,12 +21,30 @@ router.get("/", function (req, res) {
 router.put('/:Id', function (req, res) {
     var id = parseInt(req.params.Id);
     console.log(id);
-    var _a = req.body, firstname = _a.firstname, middlename = _a.middlename, lastname = _a.lastname, role_key = _a.role_key, phoneno = _a.phoneno, email = _a.email, address = _a.address;
-    db_1.pool.query('UPDATE mydata SET firstname = $1,middlename=$2, lastname=$3, email=$4,phoneno=$5,role_key=$6,address=$7 WHERE id=$8', [firstname, middlename, lastname, email, phoneno, role_key, address, id], function (error, results) {
+    var _a = req.body, firstname = _a.firstname, middlename = _a.middlename, lastname = _a.lastname, phoneno = _a.phoneno, email = _a.email, address = _a.address, customer_name = _a.customer_name, role = _a.role;
+    console.log(role, customer_name);
+    var role_key;
+    if (role == 'SuperAdmin') {
+        role_key = 'super_admin';
+    }
+    if (role == 'Admin') {
+        role_key = 'admin';
+    }
+    if (role == 'Subscriber') {
+        role_key = 'subscriber';
+    }
+    console.log(role_key, customer_name);
+    db_1.pool.query('UPDATE mydata SET firstname = $1,middlename=$2, lastname=$3, email=$4,phoneno=$5,address=$6,role_key=$7 WHERE id=$8', [firstname, middlename, lastname, email, phoneno, address, role_key, id], function (error, results) {
         if (error) {
             throw error;
         }
         res.status(200).send("User modified with ID: " + id);
+    });
+    db_1.pool.query('UPDATE customer SET customer_name=$1 where customer_id=$2', [customer_name, id], function (error, results) {
+        if (error) {
+            throw error;
+        }
+        // res.status(200).send(`User modified with ID: ${id}`)
     });
 });
 router.post('/:Id', function (req, res) {

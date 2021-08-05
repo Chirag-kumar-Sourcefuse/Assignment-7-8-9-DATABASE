@@ -104,8 +104,9 @@ class Table extends Model<string,number> implements Icrud<void>{
                         <td><input disabled type=text class="equal${i} lastName" value=${Users[i].lastname}></td>
                         <td><input disabled type=text class="equal${i} email" value=${Users[i].email}></td>
                         <td><input disabled type=text class="equal${i} phoneNo" value=${Users[i].phoneno}></td>
-                        <td><input disabled type=text class="equal${i} role" value=${Users[i].role}></td>
                         <td><input disabled type=text class="equal${i} address" value=${Users[i].address}></td>
+                        <td><input disabled type=text class="equal${i} address" value=${Users[i].customer_name}></td>
+                        <td><input disabled type=text class="equal${i} address" value=${Users[i].role}></td>
                         <td>
                         <button type="button" onclick="new Table().Update(${i},this)"  value="Edit">Edit</button>
                         <button type="button" onclick="new Table().Delete(this),${i}" value="Delete">Delete</button>
@@ -171,6 +172,8 @@ class Table extends Model<string,number> implements Icrud<void>{
         var row=td.parentElement.parentElement;
         var selectedRow=document.getElementById(`row_${sid}`) as HTMLElement;
         var button=selectedRow.querySelectorAll('input');
+        console.log(row.children[7].firstElementChild.value);
+        console.log(row.children[8].firstElementChild.value);
 
             console.log("save-put",row.children[1].innerHTML);
             fetch(`/routes-users/${row.children[0].innerHTML}`, {
@@ -182,8 +185,9 @@ class Table extends Model<string,number> implements Icrud<void>{
                     lastname: row.children[3].firstElementChild.value,
                     email: row.children[4].firstElementChild.value,
                     phoneno: row.children[5].firstElementChild.value,
-                    role: row.children[6].firstElementChild.value,
-                    address: row.children[7].firstElementChild.value,
+                    address: row.children[6].firstElementChild.value,
+                    customer_name: row.children[7].firstElementChild.value,
+                    role:row.children[8].firstElementChild.value
                 }),
         
                 headers: {
